@@ -20,6 +20,14 @@ Este asistente utiliza un enfoque **RAG (Retrieval-Augmented Generation)** para 
 
 ## 🏗️ Arquitectura
 
+    vso/
+    ├── app/
+    │   ├── main.py
+    │   └── requirements.txt
+    ├── data/
+    ├── docker-compose.yml
+    ├── Dockerfile
+    ├── .env
 ---
 
 ## 📜 Licensing
@@ -27,12 +35,13 @@ Este asistente utiliza un enfoque **RAG (Retrieval-Augmented Generation)** para 
     This project uses a **dual licensing model**:
 
 ### 🔓 Code — MIT License
+
     The source code of this project is licensed under the MIT License, allowing free use, modification, and commercial distribution.
 
 ### 🔒 Documentation & Concept — CC BY-NC 4.0
 
-All documentation, architecture, and conceptual design are licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+    All documentation, architecture, and conceptual design are licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
 
-You may use and adapt these materials for non-commercial purposes only.
+    You may use and adapt these materials for non-commercial purposes only.
 
-For commercial use of the documentation or concepts, please contact the author.
+    For commercial use of the documentation or concepts, please contact the author.
