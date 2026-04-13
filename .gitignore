@@ -1,0 +1,20 @@
+# ==============================================================================
+# SSPA Aural-Syncro — .gitignore (Security Hardened v2.2.0)
+# ==============================================================================
+# REGLA GENERAL: si contiene secretos, claves, contraseñas o datos de
+# infraestructura operativa → NO va en git.
+# Los archivos *.example y *.template SÍ se commitean (sin valores reales).
+# ==============================================================================
+
+# ── Variables de entorno ──────────────────────────────────────────────────────
+# Regla global: cualquier .env en cualquier subdirectorio
+**/.env
+**/.env.local
+**/.env.production
+**/.env.staging
+**/.env.development
+*.env
+
+# ── Documentacion ─────────────────────────────────────────────────────────────
+**/data/*.md
+**/docs/*.md

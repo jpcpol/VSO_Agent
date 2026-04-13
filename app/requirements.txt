@@ -1,0 +1,23 @@
+# ─── SSPA VSO — requirements.txt (CPU) ────────────────────────────────────────
+
+# Bot Telegram
+aiogram>=3.7,<4.0
+
+# LLM via Ollama
+litellm>=1.40,<2.0
+
+# RAG stack
+langchain>=0.2.13,<0.3.0
+langchain-community>=0.2.13,<0.3.0
+langchain-text-splitters>=0.2,<0.3
+langchain-huggingface>=0.0.3
+chromadb>=0.5,<0.6
+
+# Embeddings CPU-only (torch instalado antes en Dockerfile desde índice CPU)
+sentence-transformers>=3.0,<4.0
+
+# Loaders de documentos
+docx2txt>=0.8
+
+# Utilidades
+python-dotenv>=1.0
