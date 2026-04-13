@@ -1,101 +1,21 @@
-# Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+MIT License
 
-VSO Agent — AI Virtual Security Officer © 2026 Juan Pablo Chancay
+Copyright (c) 2026 Juan Pablo Chancay
 
----
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, subject to the following conditions:
 
-This work is licensed under the Creative Commons Attribution-NonCommercial
-4.0 International License.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-To view a copy of this license, visit:
-https://creativecommons.org/licenses/by-nc/4.0/
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
----
-
-## Human-Readable Summary
-
-> This is not a substitute for the license. See link above for full legal text.
-
-**You are free to:**
-
-- Share — Copy and redistribute the material in any medium or format.
-- Adapt — Remix, transform, and build upon the material.
-
-**Under the following conditions:**
-
-- **Attribution** — You must give appropriate credit to the author
-  (Juan Pablo Chancay), provide a link to this repository and to the license,
-  and indicate if changes were made.
-
-- **NonCommercial** — You may not use the material for commercial purposes.
-  Commercial use requires explicit written permission from the author.
-
-- **No Restrictions** — You may not apply legal terms or technological measures
-  that legally restrict others from doing anything the license permits.
-
----
-
-## Scope of This License
-
-This license applies to:
-
-- The VSO Agent software (Telegram bot, RAG engine, and AI integration)
-- Source code, scripts, and configurations in this repository
-- Documentation, architecture, and implementation details
-- Prompt engineering, system design, and security constraints
-
-This license allows:
-
-- Non-commercial educational use
-- Research and experimentation
-- Personal or internal (non-commercial) deployments
-
----
-
-## AI & Security Disclaimer
-
-This project includes an AI-based assistant designed to provide responses
-based on predefined documentation using Retrieval-Augmented Generation (RAG).
-
-Important considerations:
-
-- The system is intended for informational and support purposes only.
-- It MUST NOT be used to expose or manage sensitive information such as:
-  credentials, tokens, internal IPs, infrastructure details, or security configurations.
-- AI-generated responses may be incomplete or inaccurate.
-
-The author assumes no responsibility for:
-
-- Misuse of the software
-- Security vulnerabilities due to improper deployment
-- Decisions made based on AI-generated outputs
-
-Users are solely responsible for securing:
-
-- API keys and tokens
-- Telegram bot credentials
-- Infrastructure and deployment environments
-
----
-
-## Intellectual Property Notice
-
-This repository represents an original implementation of an AI-powered
-Virtual Security Officer (VSO) integrating RAG architecture, secure prompt
-design, and controlled information exposure.
-
-This publication establishes authorship and timestamped intellectual
-ownership of the implementation.
-
-- First public release: 2026
-- Repository: https://github.com/jpcpol/VSO_Agent
-
----
-
-## Disclaimer
-
-This work is provided "as is", without warranty of any kind, express or
-implied.
-
-For the complete legal text of the CC BY-NC 4.0 license, see:
-https://creativecommons.org/licenses/by-nc/4.0/legalcode
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
