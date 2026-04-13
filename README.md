@@ -45,3 +45,4 @@ Este asistente utiliza un enfoque **RAG (Retrieval-Augmented Generation)** para 
     You may use and adapt these materials for non-commercial purposes only.
 
     For commercial use of the documentation or concepts, please contact the author.
+---
