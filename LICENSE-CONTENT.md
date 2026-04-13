@@ -1,6 +1,6 @@
 Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
 
-© 2026 Juan Pablo Chancay
+VSO © 2026 Juan Pablo Chancay
 
 This documentation, architecture, and conceptual design are licensed under the
 Creative Commons Attribution-NonCommercial 4.0 International License.
