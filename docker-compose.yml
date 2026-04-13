@@ -1,0 +1,76 @@
+
+# ==========================================================================
+# SSPA — VSO Agent
+# AUDITADO v2.2.0 — fixes aplicados:
+# ==========================================================================
+
+services:
+
+# ── VSO — Virtual Security Officer (RAG on-premise) ────────────────────────
+  ollama-vso:
+    image: ollama/ollama:latest
+    container_name: sspa_ollama_vso
+    restart: unless-stopped
+    mem_limit: 5g
+    volumes:
+      - ollama_vso_storage:/root/.ollama
+    networks:
+      - sspa_infra
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list > /dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 12
+      start_period: 30s
+
+  vso-model-puller:
+    image: ollama/ollama:latest
+    container_name: sspa_vso_model_puller
+    depends_on:
+      ollama-vso:
+        condition: service_healthy
+    restart: "no"
+    volumes:
+      - ollama_vso_storage:/root/.ollama
+    environment:
+      OLLAMA_HOST: http://ollama-vso:11434
+      MODEL_NAME:  ${VSO_MODEL_NAME:-qwen2:1.5b}
+    entrypoint: sh -c "ollama pull $${MODEL_NAME:-qwen2:1.5b} && echo 'Modelo VSO listo.'"
+    networks:
+      - sspa_infra
+
+  vso-bot:
+    build:
+      context: ../vso_agent
+      dockerfile: Dockerfile
+    container_name: sspa_vso_bot
+    restart: unless-stopped
+    mem_limit: 4g
+    depends_on:
+      ollama-vso:
+        condition: service_healthy
+      vso-model-puller:
+        condition: service_completed_successfully
+    environment:
+      TELEGRAM_BOT_TOKEN: ${VSO_TELEGRAM_BOT_TOKEN:-${TELEGRAM_BOT_TOKEN}}
+      OLLAMA_API_BASE:    http://ollama-vso:11434
+      MODEL_NAME:         ${VSO_MODEL_NAME:-qwen2:1.5b}
+      RAG_K_DOCS:         3
+      CHUNK_SIZE:         600
+      CHUNK_OVERLAP:      80
+    volumes:
+      - ../vso_agent/data:/app/data:ro
+      - vso_vector_db:/app/vector_db
+    networks:
+      - sspa_infra
+    healthcheck:
+      disable: true
+
+volumes:
+  ollama_vso_storage:
+    name: sspa_ollama_vso_storage
+  vso_vector_db:
+    name: sspa_vso_vector_db
+
+networks:
+  sspa_infra:
