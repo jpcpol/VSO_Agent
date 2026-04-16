@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # ==========================================================================
 # SSPA — VSO Agent
 # AUDITADO v2.2.0 — fixes aplicados:
@@ -75,71 +73,3 @@ volumes:
 
 networks:
   sspa_infra:
-=======
-version: '3.8'
-
-services:
-
-  ollama-sspa:
-    image: ollama/ollama:latest
-    container_name: sspa_ollama_vso
-    volumes:
-      - ollama_storage:/root/.ollama
-    restart: unless-stopped
-    mem_limit: 5g
-    healthcheck:
-      test: ["CMD-SHELL", "ollama list > /dev/null 2>&1 || exit 1"]
-      interval: 10s
-      timeout: 10s
-      retries: 12
-      start_period: 20s
-
-  model-puller:
-    image: ollama/ollama:latest
-    container_name: sspa_model_puller
-    depends_on:
-      ollama-sspa:
-        condition: service_healthy
-    restart: "no"
-    volumes:
-      - ollama_storage:/root/.ollama
-    environment:
-      - OLLAMA_HOST=http://ollama-sspa:11434
-      - MODEL_NAME=${MODEL_NAME:-qwen2:1.5b}
-    entrypoint: sh -c "ollama pull $${MODEL_NAME:-qwen2:1.5b} && echo 'Modelo listo.'"
-
-  vso-bot:
-    build: .
-    container_name: sspa_vso_agent
-    depends_on:
-      ollama-sspa:
-        condition: service_healthy
-      model-puller:
-        condition: service_completed_successfully
-    volumes:
-      - ./data:/app/data:ro
-      - vector_db:/app/vector_db
-      # Caché de Whisper persistente → no re-descarga el modelo en cada reinicio
-      - whisper_cache:/app/.cache/whisper
-    environment:
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - OLLAMA_API_BASE=${OLLAMA_API_BASE}
-      - MODEL_NAME=${MODEL_NAME:-qwen2:1.5b}
-      - RAG_K_DOCS=3
-      - CHUNK_SIZE=600
-      - CHUNK_OVERLAP=80
-    mem_limit: 5g    # +1 GB respecto a antes por Whisper en RAM
-    restart: unless-stopped
-
-volumes:
-  ollama_storage:
-    name: sspa_ollama_storage
-  vector_db:
-    name: sspa_vector_db
-  qdrant_data:
-    name: sspa_qdrant_data
-     
-  networks:
-  default:
-    name: sspa_vso_network
->>>>>>> master
