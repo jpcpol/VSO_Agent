@@ -8,12 +8,12 @@
 
 # ── Variables de entorno ──────────────────────────────────────────────────────
 # Regla global: cualquier .env en cualquier subdirectorio
-**/.env
-**/.env.local
-**/.env.production
-**/.env.staging
-**/.env.development
-*.env
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+.env.example
 
 # ── Documentacion ─────────────────────────────────────────────────────────────
 **/data/*.md
