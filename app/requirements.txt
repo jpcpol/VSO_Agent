@@ -1,4 +1,5 @@
 # ─── SSPA VSO — requirements.txt (CPU) ────────────────────────────────────────
+<<<<<<< HEAD
 
 # Bot Telegram
 aiogram>=3.7,<4.0
@@ -21,3 +22,32 @@ docx2txt>=0.8
 
 # Utilidades
 python-dotenv>=1.0
+=======
+# NOTE: For fully reproducible production builds, pin these with:
+#   pip freeze > requirements.lock   and commit requirements.lock
+
+# Bot Telegram
+aiogram>=3.13,<3.14
+
+# LLM via Ollama
+litellm>=1.51,<1.52
+
+# RAG stack
+langchain>=0.2.16,<0.3.0
+langchain-community>=0.2.16,<0.3.0
+langchain-text-splitters>=0.2.4,<0.3.0
+langchain-huggingface>=0.0.3,<0.1.0
+chromadb>=0.5.20,<0.6.0
+
+# Embeddings CPU-only (torch installed first in Dockerfile from CPU index)
+sentence-transformers>=3.3,<3.4
+
+# Document loaders
+docx2txt>=0.8,<0.9
+
+# Cache (TTLCache — replaces lru_cache on instance method)
+cachetools>=5.5,<5.6
+
+# Utilities
+python-dotenv>=1.0,<2.0
+>>>>>>> master
