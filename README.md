@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🛡️ SSPA Aural-Syncro — Virtual Security Officer (VSO)
 
 Bot de Telegram basado en IA que actúa como **Virtual Security Officer (VSO)** para la plataforma **SSPA Aural-Syncro**.
@@ -46,4 +45,3 @@ Este asistente utiliza un enfoque **RAG (Retrieval-Augmented Generation)** para 
     You may use and adapt these materials for non-commercial purposes only.
 
     For commercial use of the documentation or concepts, please contact the author: juanpablo.chancay@aural-syncro.com.ar
----
