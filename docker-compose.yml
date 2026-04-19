@@ -1,20 +1,29 @@
-# ==========================================================================
-# SSPA — VSO Agent
-# AUDITADO v2.2.0 — fixes aplicados:
-# ==========================================================================
+# ==============================================================================
+# SSPA VSO — Virtual Security Officer
+# Stack independiente — deploya aparte del SOC principal
+#
+# Uso:
+#   cp .env.example .env
+#   # Editar .env con TELEGRAM_BOT_TOKEN y ajustes opcionales
+#   docker compose up -d --build
+#
+# Dependencias externas: ninguna (stack autocontenido)
+# Red interna:  vso_net (bridge, privada)
+# Acceso saliente: Telegram Bot API (HTTPS) + descarga del modelo Ollama
+# ==============================================================================
 
 services:
 
-# ── VSO — Virtual Security Officer (RAG on-premise) ────────────────────────
+  # ── Ollama: motor LLM on-premise ──────────────────────────────────────────
   ollama-vso:
     image: ollama/ollama:latest
-    container_name: sspa_ollama_vso
+    container_name: vso_ollama
     restart: unless-stopped
     mem_limit: 5g
     volumes:
       - ollama_vso_storage:/root/.ollama
     networks:
-      - sspa_infra
+      - vso_net
     healthcheck:
       test: ["CMD-SHELL", "ollama list > /dev/null 2>&1 || exit 1"]
       interval: 15s
@@ -22,27 +31,29 @@ services:
       retries: 12
       start_period: 30s
 
+  # ── Init: descarga el modelo una sola vez ─────────────────────────────────
   vso-model-puller:
     image: ollama/ollama:latest
-    container_name: sspa_vso_model_puller
+    container_name: vso_model_puller
     depends_on:
       ollama-vso:
         condition: service_healthy
     restart: "no"
-    volumes:
-      - ollama_vso_storage:/root/.ollama
     environment:
       OLLAMA_HOST: http://ollama-vso:11434
       MODEL_NAME:  ${VSO_MODEL_NAME:-qwen2:1.5b}
     entrypoint: sh -c "ollama pull $${MODEL_NAME:-qwen2:1.5b} && echo 'Modelo VSO listo.'"
+    volumes:
+      - ollama_vso_storage:/root/.ollama
     networks:
-      - sspa_infra
+      - vso_net
 
+  # ── Bot VSO: RAG + Telegram ────────────────────────────────────────────────
   vso-bot:
     build:
-      context: ../vso_agent
+      context: .
       dockerfile: Dockerfile
-    container_name: sspa_vso_bot
+    container_name: vso_bot
     restart: unless-stopped
     mem_limit: 4g
     depends_on:
@@ -50,26 +61,38 @@ services:
         condition: service_healthy
       vso-model-puller:
         condition: service_completed_successfully
+    env_file:
+      - path: .env
+        required: false
     environment:
-      TELEGRAM_BOT_TOKEN: ${VSO_TELEGRAM_BOT_TOKEN:-${TELEGRAM_BOT_TOKEN}}
-      OLLAMA_API_BASE:    http://ollama-vso:11434
-      MODEL_NAME:         ${VSO_MODEL_NAME:-qwen2:1.5b}
-      RAG_K_DOCS:         3
-      CHUNK_SIZE:         600
-      CHUNK_OVERLAP:      80
+      OLLAMA_API_BASE: http://ollama-vso:11434
+      MODEL_NAME:      ${VSO_MODEL_NAME:-qwen2:1.5b}
+      RAG_K_DOCS:      ${VSO_RAG_K_DOCS:-3}
+      CHUNK_SIZE:      ${VSO_CHUNK_SIZE:-600}
+      CHUNK_OVERLAP:   ${VSO_CHUNK_OVERLAP:-80}
+      CACHE_TTL:       ${VSO_CACHE_TTL:-3600}
+      RATE_LIMIT_MAX:  ${VSO_RATE_LIMIT_MAX:-10}
+      RATE_LIMIT_WINDOW: ${VSO_RATE_LIMIT_WINDOW:-60}
     volumes:
-      - ../vso_agent/data:/app/data:ro
+      - ./data:/app/data:ro
       - vso_vector_db:/app/vector_db
     networks:
-      - sspa_infra
+      - vso_net
+    # El Dockerfile define su propio HEALTHCHECK (test -f /tmp/vso_running)
+    # Se habilita aquí explícitamente para visibilidad en `docker ps`
     healthcheck:
-      disable: true
+      test: ["CMD-SHELL", "test -f /tmp/vso_running || exit 1"]
+      interval: 60s
+      timeout: 10s
+      start_period: 180s
+      retries: 3
 
 volumes:
   ollama_vso_storage:
-    name: sspa_ollama_vso_storage
+    name: vso_ollama_storage
   vso_vector_db:
-    name: sspa_vso_vector_db
+    name: vso_vector_db
 
 networks:
-  sspa_infra:
+  vso_net:
+    driver: bridge
