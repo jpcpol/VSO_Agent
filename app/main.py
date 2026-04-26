@@ -72,7 +72,7 @@ def _require_env(name: str) -> str:
 
 TOKEN        = _require_env("TELEGRAM_BOT_TOKEN")
 OLLAMA_BASE  = os.getenv("OLLAMA_API_BASE",   "http://ollama-vso:11434")
-MODEL        = os.getenv("MODEL_NAME",         "qwen2:1.5b")
+MODEL        = os.getenv("MODEL_NAME",         "llama3.2:3b")
 K_DOCS       = int(os.getenv("RAG_K_DOCS",     "3"))
 CHUNK        = int(os.getenv("CHUNK_SIZE",      "600"))
 OVERLAP      = int(os.getenv("CHUNK_OVERLAP",   "80"))
